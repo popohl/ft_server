@@ -35,7 +35,8 @@ ADD /srcs/localhost /etc/nginx/sites-available/localhost
 ADD /srcs/info.php /var/www/info/info.php
 ADD /srcs/wp-config.php /var/www/wordpress/wp-config.php
 ADD /srcs/config.inc.php /var/www/phpmyadmin/config.inc.php
-RUN ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/
+ADD /srcs/index.sh /index.sh
+RUN ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/ && chmod +x /index.sh
 
 EXPOSE 80
 EXPOSE 443
