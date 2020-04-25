@@ -1,22 +1,21 @@
 #!/bin/bash
 
-case $1 in
+state=$(grep '\(autoindex on\|autoindex off\)' /etc/nginx/sites-enabled/localhost)
+echo "current state: $state"
+
+printf "Do you want to change it? (on/off)"
+read -r new_state
+
+case "$new_state" in
 	"on")
-		echo -e "\e[32mAutoindex is actived\e[39m"
 		sed -i 's/autoindex off/autoindex on/' /etc/nginx/sites-enabled/localhost
 		service nginx restart
-		echo  ""
 		;;
 	"off")
-		echo -e "\e[31mAutoindex is inactivated\e[39m"
 		sed -i 's/autoindex on/autoindex off/' /etc/nginx/sites-enabled/localhost
 		service nginx restart
-		echo ""
 		;;
 	*)
-		echo -e "\e[31mError this value does not exist in the index"
-		echo -n -e "\e[32mautoindex is : "
-		echo | grep '\(autoindex on\|autoindex off\)' /etc/nginx/sites-enabled/localhost | cut -c13-
-		echo -e "\e[39m"
+		echo "$new_state is not a valid input, didn't change state"
 		;;
 esac
