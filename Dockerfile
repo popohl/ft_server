@@ -6,6 +6,7 @@ ADD /srcs/db.sql /tmp/
 
 RUN apt-get update && apt-get -y upgrade \
 	&& apt-get install -y \
+		vim \
 		wget \
 		nginx \
 		mariadb-server \
@@ -41,7 +42,7 @@ RUN ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/ && chmo
 EXPOSE 80
 EXPOSE 443
 
-CMD service nginx restart \
-	&& service mysql start \
+CMD service mysql start \
 	&& service php7.3-fpm start \
-	&& bash
+	&& bash /index.sh \
+	&& nginx -g 'daemon off;'

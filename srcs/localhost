@@ -1,6 +1,6 @@
 server {
 	listen 443;
-	listen [::]:443;
+	listen [::]:443 ipv6only=on;
 	ssl on;
 	ssl_certificate /root/mkcert/localhost.pem;
 	ssl_certificate_key /root/mkcert/localhost-key.pem;
@@ -23,7 +23,7 @@ server {
 
 server {
 	listen 80;
-	listen [::]:80;
+	listen [::]:80 ipv6only=on;
 	server_name localhost www.localhost;
 	return 302 https://$server_name$request_uri;
 }

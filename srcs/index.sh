@@ -1,21 +1,13 @@
 #!/bin/bash
+# Description: This script disables autoindex if the environnement variable
+# $INDEX is set to 'off', and enables it otherwise
 
-state=$(grep '\(autoindex on\|autoindex off\)' /etc/nginx/sites-enabled/localhost)
-echo "current state: $state"
-
-printf "Do you want to change it? (on/off)"
-read -r new_state
-
-case "$new_state" in
-	"on")
-		sed -i 's/autoindex off/autoindex on/' /etc/nginx/sites-enabled/localhost
-		service nginx restart
-		;;
+case "$INDEX" in
 	"off")
 		sed -i 's/autoindex on/autoindex off/' /etc/nginx/sites-enabled/localhost
-		service nginx restart
+		echo "<head><meta http-equiv='refresh' content='0; URL=/wordpress/'></head>" > /var/www/index.html
 		;;
 	*)
-		echo "$new_state is not a valid input, didn't change state"
+		sed -i 's/autoindex off/autoindex on/' /etc/nginx/sites-enabled/localhost
 		;;
 esac
